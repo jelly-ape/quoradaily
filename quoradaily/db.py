@@ -9,7 +9,6 @@ spider -> raw -> online
     raw: 可以编辑, 编辑完成后保存, 点击上线复制到 online
     online: 只读, 可以被 raw 覆盖
 """
-import copy
 import time
 import pymongo
 import logging
@@ -27,7 +26,7 @@ from quoradaily.libs import singleton, get_config
 ST_DEFAULT = 0
 ST_PASS = 1  # 通过
 ST_DENIAL = -1  # 不通过
-__all__ = ['Database', 'ST_DEFAULT', 'ST_PASS', 'ST_DENAIL']
+__all__ = ['Database', 'ST_DEFAULT', 'ST_PASS', 'ST_DENIAL']
 logger = logging.getLogger(__name__)
 
 
@@ -102,21 +101,15 @@ class Database(object):
                         a_link
                     ))
 
-    def find_raw(self, beg_date, end_date, status):
+    def find_raw(self, status, skip, limit, **conditions):
         """通过日期和状态过滤挑选出 raw 中的数据
 
         Args:
-            beg_date: 起始日期, 闭区间 (datetime)
-            end_date: 结束时间, 开区间 (datetime)
             status: 状态码. 只能在 ST_DEFAULT, ST_PASS, ST_DENIAL 中
         """
-        assert(type(beg_date) is datetime)
-        assert(type(end_date) is datetime)
-        assert(beg_date < end_date)
         assert(status in (ST_DEFAULT, ST_PASS, ST_DENIAL))
-        conditions = {'date': {'$gte': beg_date, '$lt': end_date},
-                      'status': status}
-        items = self._db.raw.find(conditions)
+        conditions['status'] = status
+        items = self._db.raw.find(conditions).skip(skip).limit(limit)
         for item in items:
             yield item
 

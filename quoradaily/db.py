@@ -21,6 +21,7 @@ except ImportError:
     import json
 # 己方库
 from quoradaily.libs import singleton, get_config
+from quoradaily.story import Story
 
 
 ST_DEFAULT = 0
@@ -127,3 +128,32 @@ class Database(object):
         ret = self._db.raw.update({'_id': _id}, {'$set': {'status': status}})
         logger.info('update_raw id={}, status={}'.format(str(_id), status))
         return ret
+
+    def find_story(self, _id):
+        """从 ID 号生成 Story 对象
+
+        Args:
+            _id: MongoDB 的 _id 号
+
+        Returns:
+            返回一个 Story 对象
+        """
+        story = Story()
+        story.title = u"What are some myths people believe about science that are taught by sci-fi movies but aren't true?"
+        story.content_html = (u'<p><img src="/static/cover_img.jpg"></p>'
+                              u'<p>The reality is that space is so vast and so full of planets and resources that attacking a civilization is literally the most costly wasteful dangerous method imaginable to get whatever resources an alien civilization may want. In real life there is no goddamned reason to fight.</p>'
+                              u'<p>If you can find and get to earth via interstellar travel then you can certainly find an uninhabited planet to colonize and whatever mineral deposits or water you might need. Everything a civilization could possibly need is out there waiting to be discovered without any need to fight anyone for it. The universe has, for all practical purposes an unlimited supply of pretty much everything.</p>'
+                              u'<p>There are no scarce resources when you can travel anywhere in the galaxy, which has an estimated 400,000,000 stars. In the real universe, interstellar battles are pointless.</p>'
+                              u'<p>An alien civilization would have to be unimaginably stupid to build an invasion fleet and attack us. (Which might explain Independence Day and why Jeff Goldblum’s 1995 laptop, with its 8 MB hard drive and no wifi capability was able to bring down an alien fleet.)</p>'
+                              u'<p>Edit: To address all the arguments about why an invasion might occur anyway, I want to point out that this carries an immense risk no one seems to have thought of:</p>'
+                              u'<p><a href="http://www.baidu.com">Try this site</a>'
+                              u'<p>If you’re going to put on the warpaint and go on a galaxy wide conquering rampage it only takes one civilization far more advanced than your own to completely ruin your day. There is always someone better than you. Our galaxy is vast and civilizations might not be what they appear to be.</p>'
+                              u'<p>Those harmless looking easy to defeat raccoon people of planet Trashcaneon are unfortunately a bunch of gun nuts -and their gun of choice happens to be a photonic disruption fusion rifle with a personal force shield. Your best weaponry is ineffective and you’re defenseless against their weapons.</p>'
+                              u'<p>Your invasion fleet is about as effective as sticks and rocks.</p>'
+                              u'<p>The raccoon people and their highly advanced technology don’t take kindly to your interstellar attack and destroy your entire space fleet and crush your home planet and still have time to catch Thursday Night Dumpsterball.</p>')
+        story.author_name = u'Craig Weiler'
+        story.author_desc = u'Years of training at movie watching'
+        story.author_avatar_url = u'https://qph.ec.quoracdn.net/main-thumb-8391952-50-eumqzwejwpfofgfotphchcgfqbybhwhd.jpeg'
+        story.cover_url = u'/static/cover_img.jpg'
+        story.source_url = u'https://quora.com/What-are-some-myths-people-believe-about-science-that-are-taught-by-sci-fi-movies-but-arent-true/answer/Craig-Weiler'
+        return story

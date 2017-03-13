@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link href="/static/style.css" rel="stylesheet">
+        <title>{{ story.title }}</title>
+    </head>
+    <body>
+        <div class="headline">
+            <img class="headline-cover" src="{{ story.cover_url }}">
+            <h1 class="headline-title">{{ story.title }}</h1>
+        </div>
+
+        <div class="wrapper">
+            <div class="author">
+                <img class="author-avatar" src="{{ story.author_avatar_url }}">
+                <div class="author-name">{{ story.author_name }}</div>
+                <div class="author-desc">{{ story.author_desc }}</div>
+            </div>
+            <div class="content">
+                {{ story.content_html | safe }}
+            </div>
+            <a href="{{ story.source_url }}"><div class="source">
+                View in Quora
+            </div></a>
+        </div><!--wrapper-->
+    </body>
+</html>

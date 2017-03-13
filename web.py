@@ -18,5 +18,17 @@ def SelectPage(page=1):
     return render_template('select.html', items=items)
 
 
+@app.route('/feed/')
+def FeedPage():
+    pass
+
+
+@app.route('/story/<_id>')
+def StoryPage(_id):
+    db = qd.Database()
+    story = db.find_story(_id)
+    return render_template('story.html', story=story)
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
